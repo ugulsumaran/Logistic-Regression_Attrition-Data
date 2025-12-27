@@ -19,7 +19,8 @@ Given the imbalanced dataset (low attrition rate), class weights are applied, an
 ## Project Steps (Detailed Overview)
 
 - Data Loading and Exploratory Data Analysis (EDA):
-  - Examining data structure (head/tail, shape, info)
+  - Basic libraries such as Pandas, NumPy, Scikit-learn (LogisticRegression, train_test_split, StandardScaler, metrics), Matplotlib, and Seaborn are imported.   
+  - Examining data structure (head/tail, shape(1470, 35), info)
   - Visualizing distributions of numerical and categorical variables with histograms
   - Analyzing target variable distribution (detecting class imbalance)
 
@@ -33,12 +34,15 @@ Given the imbalanced dataset (low attrition rate), class weights are applied, an
 - Correlation Analysis:
   - Heatmap of correlations among encoded features
   - Detecting highly correlated pairs (≥ 0.7 threshold)
+    - Correlation matrix: Strong relationships identified, for example: JobLevel and MonthlyIncome: +0.95 correlation
+    - Negative correlations between departments (Sales vs R&D: -0.91)
   - Ranking correlations with the target variable (identifying most influential features)
 
 - Feature Engineering:
   - Creating meaningful new features to reduce multicollinearity and capture deeper relationships: IncomePerLevel, ExperiencePerLevel, IncomePerExperienceYear
 RoleManagerStability, ManagerTenureRatio, PromotionLag
 OvertimeBurden, CommuteStress, OverallSatisfaction
+- As a result, the dataset is reduced to (1470, 33) columns.
 
   - Dropping redundant original features
 
@@ -46,6 +50,7 @@ OvertimeBurden, CommuteStress, OverallSatisfaction
   - One-Hot Encoding for remaining categorical variables
   - Stratified train/test split (70% train, 30% test)
   - Scaling numerical features with StandardScaler
+
 
 - Logistic Regression Model:
   - L2 regularization
@@ -57,6 +62,10 @@ OvertimeBurden, CommuteStress, OverallSatisfaction
   - Classification Report (Precision, Recall, F1-Score)
   - Confusion Matrix
   - Interpretation of key attrition risk factors (e.g., overtime burden, promotion delays)
+    - Key features increasing attrition probability (positive coefficients):
+      - JobRole_Sales Executive: +0.908 (strongest effect) OverTimeNum (Overtime): +0.741
+    - Key features decreasing attrition probability (negative coefficients):
+      -OverallSatisfaction: -0.714 (strongest protective effect) IncomePerLevel: -0.381
 
 
 ## How to Run
@@ -78,3 +87,4 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 ## Results
 Thanks to engineered features, the model achieves meaningful performance. The strongest predictors of attrition are typically overtime burden, promotion delays, income-experience imbalances, and overall satisfaction scores.
 This project is much more than a basic model: it is a comprehensive pipeline addressing realistic data challenges (outliers, rare categories, multicollinearity, imbalance).
+<img width="874" height="399" alt="image" src="https://github.com/user-attachments/assets/72f5d17b-77d9-456f-b03e-d0199b19b259" />
